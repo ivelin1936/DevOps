@@ -34,6 +34,11 @@ For the Jenkins part, try to automate it as much as possible. Ideally, there sho
         - Add Credentials Username with password
         - Add Credentials SSH Username with private key (credentials from file), Enter directly 
             - paste the contents of the private key file which can be extracted (on the jenkins machine) with `sudo cat /var/lib/jenkins/.ssh/id_rsa`
+        - Add credentials for docker GitHub
+            - Username: <DOCKER_HUB_USERNAME>
+            - Password: <DOCKER_HUB_TOKEN>
+            - ID: docker-hub
+            - Description: docker-hub
     - Plugins
         - SSH
         - Blue Ocean
