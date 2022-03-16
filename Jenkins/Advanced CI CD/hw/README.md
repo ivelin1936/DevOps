@@ -74,3 +74,10 @@ For the Jenkins part, try to automate it as much as possible. Ideally, there sho
         - Add repository webhook (in gitea UI)
             - Target URL `http://192.168.56.11:8080/gitea-webhook/post`
         - Make repository Visibility public (unmark 'Make repository Private' from repository settings) 
+    - Create new pipline into Jenkins
+        - mark 'GitHub project'
+            - add project url to the gitea repository
+        - mark 'GitHub hook trigger for GITScm polling'
+        - mark 'Poll SCM'
+        - Place the Jenkins file's content into the pipline script...
+        - Save and Build
