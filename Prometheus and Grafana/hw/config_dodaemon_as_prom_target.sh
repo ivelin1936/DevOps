@@ -22,6 +22,7 @@ JSON_STRING=$( jq -n \
                   
 echo $JSON_STRING | jq | sudo tee $FILE
 
+counter=0
 sudo systemctl restart docker
 echo "### Checking docker deamon status..."
 while true ; do
@@ -30,5 +31,10 @@ while true ; do
         echo "Docker deamon is up! Checking status..."
         systemctl status docker
         break
+    else
+        counter=$((counter+1))
+        if [ $((counter%2)) -eq 0 ]; then
+        sudo systemctl restart docker
+        fi
     fi
 done
