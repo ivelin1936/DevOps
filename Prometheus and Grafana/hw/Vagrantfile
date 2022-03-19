@@ -36,7 +36,7 @@ Vagrant.configure(2) do |config|
     #ubuntu.vm.synced_folder "grafana", "/grafana"
 	#ubuntu.vm.provision "shell", path: "add_hosts.sh"
     #ubuntu.vm.provision "shell", path: "addons_ubuntu.sh"
-    #ubuntu.vm.provision "shell", path: "install_docker_debian.sh"
+    #ubuntu.vm.provision "shell", path: "install_docker_ubuntu.sh"
   #end
 
 end

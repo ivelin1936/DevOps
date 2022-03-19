@@ -21,6 +21,6 @@ if [ "$(systemctl is-active docker)" != "active" ]; then
 fi
  
 echo "### Deploying prometheus stack...."
-docker-compose -f docker-compose.yaml down || true
-docker-compose build --no-cache 
-docker-compose -f docker-compose.yaml up -d 
+sudo docker-compose -f docker-compose.yaml down || true
+sudo docker-compose build --no-cache 
+sudo docker-compose -f docker-compose.yaml up -d 
