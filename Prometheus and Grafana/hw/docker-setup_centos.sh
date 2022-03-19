@@ -46,3 +46,13 @@ chmod +x ~/.docker/cli-plugins/docker-compose
 echo "### Installing Docker Compose v1..."
 curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m` > /tmp/docker-compose && chmod +x /tmp/docker-compose && sudo cp /tmp/docker-compose /usr/local/bin/docker-compose
 
+sudo systemctl restart docker
+echo "### Checking docker deamon status..."
+while true ; do
+    sleep 5
+    if [ "$(systemctl is-active docker)" = "active" ]; then 
+        echo "Docker deamon is up! Checking status..."
+        systemctl status docker
+        break
+    fi
+done
