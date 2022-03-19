@@ -15,12 +15,17 @@ FILE="/etc/docker/daemon.json"
 
 METRICS_ADDR="127.0.0.1:9323"
 EXPERIMENTAL=true
-JSON_STRING=$( jq -n \
+if [ -s "$FILE" ]; then 
+    echo "The file '$FILE' is NOT EMPTY and should be edited... for more information please visit 'https://docs.docker.com/config/daemon/prometheus/'."
+else
+    sudo touch $FILE
+    JSON_STRING=$( jq -n \
                   --arg bmetrics-addr "$METRICS_ADDR" \
                   --arg experimental "$EXPERIMENTAL" \
                   '$ARGS.named' )
                   
-echo $JSON_STRING | jq | sudo tee $FILE
+    echo $JSON_STRING | jq | sudo tee $FILE
+fi
 
 counter=0
 sudo systemctl restart docker
@@ -32,7 +37,7 @@ while true ; do
         systemctl status docker
         break
     else
-        counter=$((counter+1))
+        
         if [ $((counter%2)) -eq 0 ]; then
         sudo systemctl restart docker
         fi

@@ -7,7 +7,7 @@ scrape_configs:
   - targets: ['centos:9090']
  - job_name: 'centos_node_exporter'
   static_configs:
-  - targets: ['node2:9100']
+  - targets: ['centos:9100']
  - job_name: 'goprom_app_1'
   static_configs:
   - targets: ['centos:8081']

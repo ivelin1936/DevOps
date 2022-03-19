@@ -36,7 +36,6 @@ echo "### Installing Docker Compose v1..."
 curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m` > /tmp/docker-compose && chmod +x /tmp/docker-compose && sudo cp /tmp/docker-compose /usr/local/bin/docker-compose
 sleep 5
 
-
 sudo iptables -t filter -F
 sudo iptables -t filter -X
 counter=0
