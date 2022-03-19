@@ -33,8 +33,9 @@ curl -SL https://github.com/docker/compose/releases/download/v2.0.0-rc.3/docker-
 chmod +x ~/.docker/cli-plugins/docker-compose
 
 echo "### Installing Docker Compose v1..."
-curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m` > /tmp/docker-compose && chmod +x /tmp/docker-compose && sudo cp /tmp/docker-compose /usr/local/bin/docker-compose
-sleep 5
+curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+docker-compose --version
 
 sudo iptables -t filter -F
 sudo iptables -t filter -X

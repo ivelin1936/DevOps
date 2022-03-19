@@ -19,8 +19,26 @@ if [ "$(systemctl is-active docker)" != "active" ]; then
         fi
     done
 fi
- 
-echo "### Deploying prometheus stack...."
-sudo docker-compose -f docker-compose.yaml down || true
-sudo docker-compose build --no-cache 
-sudo docker-compose -f docker-compose.yaml up -d 
+
+DIR="${PWD}/prom"
+if [ -d "$DIR" ]; then
+    FILE_NAME="docker-compose"
+    COMPOSE_FILE="$DIR/$FILE_NAME.yaml"
+    if [ -f "$COMPOSE_FILE" ]; then 
+        echo "File'$COMPOSE_FILE' detected..."
+    else
+        echo "File'$COMPOSE_FILE' not found! Search for *.yml..."
+        COMPOSE_FILE="$DIR/$FILE_NAME.yml"
+    fi
+    
+    if [ -f "$COMPOSE_FILE" ]; then
+        echo "### Deploying prometheus stack...."
+        docker-compose -f $COMPOSE_FILE down || true
+        docker-compose build --no-cache 
+        docker-compose -f $COMPOSE_FILE up -d
+    else
+        echo "File'$COMPOSE_FILE' not found!"
+    fi
+else
+    echo "Shared directory '$DIR' not found"
+fi
