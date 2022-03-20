@@ -51,10 +51,28 @@ services:
           - front-tier
         restart: always
     
-    #node-exporter:
-        #image: prom/node-exporter
-        #ports:
-            #- '9100:9100'
+    node-exporter:
+        container_name: node-exporter
+        image: prom/node-exporter
+        ports:
+            - 9100:9100
+        networks:
+          - back-tier
+            
+    goprom_1:
+        container_name: worker1
+        image: shekeriev/goprom
+        ports:
+          - 8081:8080
+        networks:
+          - back-tier
+    goprom_2:
+        container_name: worker2
+        image: shekeriev/goprom
+        ports:
+          - 8082:8080
+        networks:
+          - back-tier
 
 volumes:
   grafana_data:
