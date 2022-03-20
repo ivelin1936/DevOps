@@ -20,6 +20,8 @@ services:
         networks:
             - back-tier
         restart: always
+        depends_on:
+            - cadvisor
     
     alertmanager:
         container_name: alertmanager
@@ -74,6 +76,15 @@ services:
         restart: always
         deploy:
           mode: global
+        depends_on:
+          - redis
+    redis:
+        image: redis:latest
+        container_name: redis
+        ports:
+          - 6379:6379
+        networks:
+          - back-tier
             
     goprom_1:
         container_name: worker1

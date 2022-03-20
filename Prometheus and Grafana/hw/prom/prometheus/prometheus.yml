@@ -11,10 +11,12 @@ scrape_configs:
     - targets: ['node-exporter:9100']
   - job_name: 'goprom_app'
     static_configs:
-    - targets: ['worker1:8081', 'worker2:8082']
-  - job_name: 'docker'
+    - targets: ['192.168.56.11:8081', '192.168.56.11:8082']
+  - job_name: 'cadvisor'
+    scrape_interval: 5s
     static_configs:
-    - targets: ['cadvisor:9323']
+    - targets: 
+      - 192.168.56.11:9323
   
 rule_files:
   - rules.yml
