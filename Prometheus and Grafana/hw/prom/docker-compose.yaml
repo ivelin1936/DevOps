@@ -55,9 +55,25 @@ services:
         container_name: node-exporter
         image: prom/node-exporter
         ports:
-            - 9100:9100
+          - 9100:9100
         networks:
           - back-tier
+          
+    cadvisor:
+        container_name: cadvisor
+        image: gcr.io/cadvisor/cadvisor
+        volumes:
+          - /:/rootfs:ro
+          - /var/run:/var/run:rw
+          - /sys:/sys:ro
+          - /var/lib/docker/:/var/lib/docker:ro
+        ports:
+          - 9323:8080
+        networks:
+          - back-tier
+        restart: always
+        deploy:
+          mode: global
             
     goprom_1:
         container_name: worker1

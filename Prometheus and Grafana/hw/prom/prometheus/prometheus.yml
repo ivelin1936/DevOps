@@ -14,7 +14,7 @@ scrape_configs:
     - targets: ['worker1:8081', 'worker2:8082']
   - job_name: 'docker'
     static_configs:
-    - targets: ['centos:9323']
+    - targets: ['cadvisor:9323']
   
 rule_files:
   - rules.yml
