@@ -9,7 +9,7 @@ Vagrant.configure(2) do |config|
     centos.vm.box="ivelin1936/VCentos"
     centos.vm.hostname = "centos.m6.hw"
     centos.vm.provider :virtualbox do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "3072"]
+      vb.customize ["modifyvm", :id, "--memory", "4096"]
       vb.name = "CENTOS_M6"
     end
     centos.vm.network "private_network", ip: "192.168.56.11"
@@ -20,7 +20,7 @@ Vagrant.configure(2) do |config|
     centos.vm.provision "shell", path: "docker-setup_centos.sh"
     #centos.vm.provision "shell", path: "config_dodaemon_as_prom_target.sh"
     #centos.vm.provision "shell", path: "install_node_exporter.sh"
-    centos.vm.provision "shell", path: "deploy_goprom_workers.sh"
+    #centos.vm.provision "shell", path: "deploy_goprom_workers.sh"
     centos.vm.provision "shell", path: "deploy_stack.sh"
   end
 
