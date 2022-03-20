@@ -42,3 +42,6 @@ if [ -d "$DIR" ]; then
 else
     echo "Shared directory '$DIR' not found"
 fi
+
+echo "### Listing active docker containers:"
+docker container ls

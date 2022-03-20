@@ -3,10 +3,11 @@ version: "3.8"
 services:
     prometheus:
         image: prom/prometheus
+        privileged: true
         ports:
             - 9090:9090
         volumes:
-            #- "./prometheus:/etc/prometheus"
+            - "./prometheus:/etc/prometheus:ro"
             - "prometheus_data:/prometheus"
         command:
             - '--config.file=/etc/prometheus/prometheus.yml'
@@ -29,26 +30,36 @@ services:
           - back-tier
         restart: always
         command:
-          - '--config.file=/etc/alertmanager/config.yml'
+          - '--config.file=/etc/alertmanager/alertmanager.yml'
           - '--storage.path=/alertmanager'
       
     grafana:
-        image: grafana/grafana
+        image: grafana/grafana-oss
+        user: "472"
         depends_on:
           - prometheus
         ports:
           - 3000:3000
         volumes:
           - grafana_data:/var/lib/grafana
-          #- "./grafana:/var/lib/grafana"
+          #- "./grafana:/var/lib/grafana:rw"
         networks:
           - back-tier
           - front-tier
         restart: always
+    
+    #node-exporter:
+        #image: prom/node-exporter
+        #ports:
+            #- '9100:9100'
 
 volumes:
   grafana_data:
+    name: grafana_data
+    external: false
   prometheus_data:
+    name: prometheus_data
+    external: false
   
 networks:
   front-tier:

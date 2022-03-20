@@ -1,12 +1,13 @@
 global:
- resolve_timeout: 1m
- slack_api_url: 'https://hooks.slack.com/services/<hook-id>'
+  resolve_timeout: 1m
+  slack_api_url: 'https://hooks.slack.com/services/<hook-id>'
 
 route:
- receiver: 'slack-notifications'
+  receiver: 'slack'
 
 receivers:
-- name: 'slack-notifications'
- slack_configs:
- - channel: '#prometheus'
-  send_resolved: true
+  - name: 'slack'
+    slack_configs:
+      - channel: '#prometheus'
+        send_resolved: true
+        username: 'alert_bot'
