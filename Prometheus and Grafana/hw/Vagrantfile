@@ -10,7 +10,7 @@ Vagrant.configure(2) do |config|
     centos.vm.hostname = "centos.m6.hw"
     centos.vm.provider :virtualbox do |vb|
       vb.customize ["modifyvm", :id, "--memory", "4096"]
-      vb.name = "CENTOS_M6"
+      vb.name = "COS_M6"
     end
     centos.vm.network "private_network", ip: "192.168.56.11"
     centos.vm.synced_folder "prom", "/home/vagrant/prom"
