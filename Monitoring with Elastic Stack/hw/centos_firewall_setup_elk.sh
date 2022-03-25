@@ -27,6 +27,7 @@ sudo firewall-cmd --permanent --add-port 9200/tcp
 sudo firewall-cmd --permanent --add-port 9300/tcp
 sudo firewall-cmd --permanent --add-port 5000/tcp
 sudo firewall-cmd --permanent --add-port 5000/udp
+sudo firewall-cmd --permanent --add-port=5044/tcp #metricbeat connect Logstash
 sudo firewall-cmd --permanent --add-service=http
 sudo firewall-cmd --permanent --add-service=https
 sudo firewall-cmd --reload
