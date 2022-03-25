@@ -2,8 +2,12 @@
 ## Default Elasticsearch configuration from Elasticsearch base image.
 ## https://github.com/elastic/elasticsearch/blob/master/distribution/docker/src/docker/config/elasticsearch.yml
 #
-cluster.name: "docker-cluster"
-network.host: 0.0.0.0
+cluster.name: "elk-do-cluster"
+node.name: "server"
+network.host: ["localhost", "0.0.0.0", "192.168.56.11"]
+http.port: 9200
+
+cluster.initial_master_nodes: ["server"]
 
 ## X-Pack settings
 ## see https://www.elastic.co/guide/en/elasticsearch/reference/current/security-settings.html
