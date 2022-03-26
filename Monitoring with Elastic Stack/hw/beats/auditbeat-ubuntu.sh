@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "### Installing metricbeat..."
+echo "⠿⠿ Installing metricbeat..."
 wget https://artifacts.elastic.co/downloads/beats/auditbeat/auditbeat-8.1.0-amd64.deb
 sudo dpkg -i auditbeat-8.1.0-amd64.deb
 

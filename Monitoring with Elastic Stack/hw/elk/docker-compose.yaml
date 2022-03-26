@@ -19,10 +19,12 @@ services:
       - "9300:9300"
     environment:
       ES_JAVA_OPTS: "-Xmx2g -Xms2g"
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      # Use single node discovery in order to disable production mode and avoid bootstrap checks. Take a note '[cluster.initial_master_nodes] is not allowed when [discovery.type] is set to [single-node]'
+      # Bootstrap password. Used to initialize the keystore during the initial startup of Elasticsearch. Ignored on subsequent runs.
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
+      # Use single node discovery in order to disable production mode and avoid bootstrap checks. 
+      # Take a note '[cluster.initial_master_nodes] is not allowed when [discovery.type] is set to [single-node]'
       # see https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
-      #discovery.type: single-node
+      discovery.type: single-node
     networks:
       - elk
     restart: always
@@ -42,12 +44,13 @@ services:
         target: /usr/share/logstash/pipeline
         read_only: true
     ports:
+      - "5044:5044"
       - "5000:5000/tcp"
       - "5000:5000/udp"
       - "9600:9600"
     environment:
       LS_JAVA_OPTS: "-Xmx512m -Xms512m"
-      LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD}
+      LOGSTASH_INTERNAL_PASSWORD: ${LOGSTASH_INTERNAL_PASSWORD:-}
     networks:
       - elk
     restart: always
@@ -67,7 +70,7 @@ services:
     ports:
       - "5601:5601"
     environment:
-      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD}
+      KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-}
     networks:
       - elk
     restart: always
@@ -76,7 +79,7 @@ services:
 
 networks:
   elk:
-    #driver: bridge
+    driver: bridge
 
 volumes:
   elasticsearch:

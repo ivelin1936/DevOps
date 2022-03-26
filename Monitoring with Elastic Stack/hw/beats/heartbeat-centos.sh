@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "### Installing metricbeat..."
+echo "⠿⠿ Installing metricbeat..."
 wget https://artifacts.elastic.co/downloads/beats/heartbeat/heartbeat-8.1.0-x86_64.rpm
 sudo rpm -Uvh heartbeat-8.1.0-x86_64.rpm
 
