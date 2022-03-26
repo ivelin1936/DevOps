@@ -4,8 +4,9 @@
 #
 server.name: server
 server.port: 5601
-server.host: 0.0.0.0
-#server.host: "192.168.56.11"
+#server.host: 0.0.0.0
+server.host: "192.168.56.11"
+server.publicBaseUrl: "http://192.168.56.11:5601"
 
 elasticsearch.hosts: [ "http://localhost:9200" ]
 monitoring.ui.container.elasticsearch.enabled: true

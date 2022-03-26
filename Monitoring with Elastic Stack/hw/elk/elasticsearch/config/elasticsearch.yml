@@ -4,7 +4,8 @@
 #
 cluster.name: "elk-do-cluster"
 node.name: "server"
-network.host: ["localhost", "0.0.0.0", "192.168.56.11"]
+#network.host: ["localhost", "0.0.0.0", "192.168.56.11"]
+network.host: ["192.168.56.11"]
 http.port: 9200
 
 cluster.initial_master_nodes: ["server"]

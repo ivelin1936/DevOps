@@ -3,3 +3,4 @@
 ## https://github.com/elastic/logstash/blob/master/docker/data/logstash/config/logstash-full.yml
 #
 http.host: "0.0.0.0"
+#http.host: "192.168.56.11"
