@@ -11,4 +11,4 @@ similar if the script is ubuntu installation, then the script's name have to be 
     - Install the beat's template into the Elasticsearch (example: `sudo metricbeat setup --index-management -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["192.168.56.11:9200"]'`)
     - Start and enable the beat service (example: `sudo systemctl daemon-reload, sudo systemctl enable metricbeat, sudo systemctl start metricbeat`)
 
-#### Check and if need change ELASTICSEARCH_HOST value in all setup scripts (<BEAT_NAME>-setup.sh) to fit your needs/case!!!
+#### Check and change, if need there is need too, the ELASTICSEARCH_HOST value in all setup scripts (<BEAT_NAME>-setup.sh) to fit your specific case!!!
