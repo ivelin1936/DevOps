@@ -2,9 +2,12 @@
 ## Default Kibana configuration from Kibana base image.
 ## https://github.com/elastic/kibana/blob/master/src/dev/build/tasks/os_packages/docker_generator/templates/kibana_yml.template.ts
 #
-server.name: kibana
+server.name: server
+server.port: 5601
 server.host: 0.0.0.0
-elasticsearch.hosts: [ "http://elasticsearch:9200" ]
+#server.host: "192.168.56.11"
+
+elasticsearch.hosts: [ "http://localhost:9200" ]
 monitoring.ui.container.elasticsearch.enabled: true
 
 ## X-Pack security credentials
