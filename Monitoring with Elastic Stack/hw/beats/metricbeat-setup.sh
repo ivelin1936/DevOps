@@ -16,3 +16,8 @@ echo "⠿⠿ Start and enable the Metricbeat service..."
 sudo systemctl daemon-reload
 sudo systemctl enable metricbeat
 sudo systemctl start metricbeat
+
+
+sleep 3
+echo "⠿ Check metricbeat logs...."
+journalctl -xe --unit metricbeat
