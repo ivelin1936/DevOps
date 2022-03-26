@@ -1,28 +1,36 @@
 #!/bin/bash
 
-#!/bin/bash
+DISTRIBUTION=$1
+BEAT=$2
 
 DIR=${PWD}/beats
 HOSTNAME_IP=$(hostname -i | awk '{print $2}')
 echo "### Installing beats on host $HOSTNAME_IP..."
 
-metricbeat() {
-    METRICBEAT="$DIR/metricbeat_centos_setup.sh"
-    CUSTOM_METRICBEAT_YML="$DIR/metricbeat.yml"
-    ORIGINAL_YML_CONF="/etc/metricbeat/metricbeat.yml"
+setupbeat() {
+    BEAT_NAME=$1
+    BEAT_SCRIPT_PATH="$DIR/$BEAT_NAME-$DISTRIBUTION.sh"
+    CUSTOM_BEAT_YML="$DIR/$BEAT_NAME.yml"
+    ORIGINAL_BEAT_YML="/etc/$BEAT_NAME/$BEAT_NAME.yml"
 
-    [ -f "$METRICBEAT" ] && echo "Installing metricbeat:::..." && source $METRICBEAT || echo "File '$METRICBEAT' not found. Current dir: '${PWD}'"
-    if [ -f $CUSTOM_METRICBEAT_YML ]; then
-        echo "::::: Custom configuration file '$CUSTOM_METRICBEAT_YML' detected!"
+    if [ -f "$BEAT_SCRIPT_PATH" ]; then 
+        echo "Installing $BEAT_NAME:::..." 
+        sudo source $BEAT_SCRIPT_PATH
+    else
+        echo "File '$BEAT_SCRIPT_PATH' not found. Current dir: '${PWD}'"
+    fi
+    
+    if [ -f $CUSTOM_BEAT_YML ]; then
+        echo "::::: Custom configuration file '$CUSTOM_BEAT_YML' detected!"
         echo "Applying custom configuration..."
-        sudo cp -f $CUSTOM_METRICBEAT_YML $ORIGINAL_YML_CONF
+        sudo cp -f $CUSTOM_BEAT_YML $ORIGINAL_BEAT_YML
     else 
-        echo "Not found custom configuration file '$CUSTOM_METRICBEAT_YML'."
+        echo "Not found custom configuration file '$CUSTOM_BEAT_YML'."
     fi
 }
 
 applyBeats() {
-    metricbeat
+    setupbeat $BEAT
 }
 
 [ -d "$DIR" ] && applyBeats|| echo "Shared dir '$DIR' not found"

@@ -37,7 +37,7 @@ Vagrant.configure(2) do |config|
     ccentos.vm.provision "shell", path: "add_hosts.sh"
     ccentos.vm.provision "shell", path: "addons_centos.sh"
     ccentos.vm.provision "shell", path: "centos_firewall_setup_client.sh"
-    ccentos.vm.provision "shell", path: "install_beats.sh"
+    ccentos.vm.provision "shell", path: "install_beats.sh", :args => "centos"
   end
 
   config.vm.define "cubuntu" do |cubuntu|
@@ -53,7 +53,7 @@ Vagrant.configure(2) do |config|
     cubuntu.vm.synced_folder "beats", "/home/vagrant/beats"
 	cubuntu.vm.provision "shell", path: "add_hosts.sh"
     cubuntu.vm.provision "shell", path: "addons_ubuntu.sh"
-    cubuntu.vm.provision "shell", path: "install_beats.sh"
+    cubuntu.vm.provision "shell", path: "install_beats.sh", :args => "ubuntu"
   end
 
 end
