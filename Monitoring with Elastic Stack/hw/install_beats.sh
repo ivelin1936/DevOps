@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#TODO: make it works with unknown number of beats as arguments 'https://stackoverflow.com/questions/4423306/how-do-i-find-the-number-of-arguments-passed-to-a-bash-script'
+
 DISTRIBUTION=$1
 BEAT=$2
 
@@ -15,7 +17,7 @@ setupbeat() {
 
     if [ -f "$BEAT_SCRIPT_PATH" ]; then 
         echo "Installing $BEAT_NAME:::..." 
-        sudo source $BEAT_SCRIPT_PATH
+        sudo bash $BEAT_SCRIPT_PATH
     else
         echo "File '$BEAT_SCRIPT_PATH' not found. Current dir: '${PWD}'"
     fi
