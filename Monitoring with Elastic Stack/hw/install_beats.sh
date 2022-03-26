@@ -20,6 +20,15 @@ setupbeat() {
         echo "⠿ Installing $BEAT_NAME:::..." 
         sudo bash $BEAT_SCRIPT_PATH
         
+        if [ -f $CUSTOM_BEAT_YML ]; then
+            echo "⠿ Custom configuration file '$CUSTOM_BEAT_YML' detected!"
+            echo "⠿⠿ Applying custom configuration..."
+            sudo cp -f $CUSTOM_BEAT_YML $ORIGINAL_BEAT_YML
+            sudo $BEAT_NAME test config
+        else 
+            echo "⠿ Not found custom configuration file '$CUSTOM_BEAT_YML'."
+        fi
+        
         if [ -f $SETUP_SCRIPT ]; then
             echo "⠿ Setting up $BEAT_NAME..."
             sudo bash $SETUP_SCRIPT
@@ -28,14 +37,6 @@ setupbeat() {
         fi
     else
         echo "File '$BEAT_SCRIPT_PATH' not found. Current dir: '${PWD}'"
-    fi
-    
-    if [ -f $CUSTOM_BEAT_YML ]; then
-        echo "⠿ Custom configuration file '$CUSTOM_BEAT_YML' detected!"
-        echo "⠿⠿ Applying custom configuration..."
-        sudo cp -f $CUSTOM_BEAT_YML $ORIGINAL_BEAT_YML
-    else 
-        echo "⠿ Not found custom configuration file '$CUSTOM_BEAT_YML'."
     fi
 }
 

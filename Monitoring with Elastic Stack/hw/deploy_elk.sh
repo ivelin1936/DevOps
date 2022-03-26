@@ -3,6 +3,11 @@
 HOSTNAME_IP=$(hostname -i | awk '{print $2}')
 echo "⠿⠿ Deploying ELK on host $HOSTNAME_IP..."
 
+echo "⠿ System limits on mmap counts: "
+sudo sysctl vm.max_map_count
+echo "⠿ Increasing it to 262144"
+sudo sysctl -w vm.max_map_count=262144
+
 SHARED_FOLDER=${PWD}/elk
 DOCKER_COMPOSE_FILE=docker-compose.yml
 test -f $SHARED_FOLDER/$DOCKER_COMPOSE_FILE || DOCKER_COMPOSE_FILE=docker-compose.yaml
