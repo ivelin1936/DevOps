@@ -13,7 +13,7 @@ setupbeat() {
     BEAT_NAME=$1
     BEAT_SCRIPT_PATH="$DIR/$BEAT_NAME-$DISTRIBUTION.sh"
     SETUP_SCRIPT="$DIR/$BEAT_NAME-setup.sh"
-    CUSTOM_BEAT_YML=$DIR/$BEAT_NAME
+    CUSTOM_BEAT_YML="$DIR/$BEAT_NAME.yml"
     ORIGINAL_BEAT_YML="/etc/$BEAT_NAME/$BEAT_NAME.yml"
     
     if [ -f "$BEAT_SCRIPT_PATH" ]; then 
