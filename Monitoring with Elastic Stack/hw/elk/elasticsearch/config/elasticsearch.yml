@@ -4,7 +4,7 @@
 #
 cluster.name: "elk-do-cluster"
 node.name: "server"
-#network.host: ["localhost", "0.0.0.0", "192.168.56.11"]
+#network.host: ["0.0.0.0", "192.168.56.11"]
 network.host: 0.0.0.0
 http.port: 9200
 
@@ -14,4 +14,6 @@ http.port: 9200
 ## see https://www.elastic.co/guide/en/elasticsearch/reference/current/security-settings.html
 #
 xpack.license.self_generated.type: trial
+
+#Security is disabled, but you should enable it on production!
 xpack.security.enabled: false
