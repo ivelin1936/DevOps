@@ -12,12 +12,20 @@ echo "### Installing beats on host $HOSTNAME_IP..."
 setupbeat() {
     BEAT_NAME=$1
     BEAT_SCRIPT_PATH="$DIR/$BEAT_NAME-$DISTRIBUTION.sh"
-    CUSTOM_BEAT_YML="$DIR/$BEAT_NAME.yml"
+    SETUP_SCRIPT="$DIR/$BEAT_NAME-setup.sh"
+    CUSTOM_BEAT_YML=$DIR/$BEAT_NAME
     ORIGINAL_BEAT_YML="/etc/$BEAT_NAME/$BEAT_NAME.yml"
-
+    
     if [ -f "$BEAT_SCRIPT_PATH" ]; then 
         echo "Installing $BEAT_NAME:::..." 
         sudo bash $BEAT_SCRIPT_PATH
+        
+        if [ -f $SETUP_SCRIPT ]; then
+            echo "Setting up $BEAT_NAME..."
+            sudo bash $SETUP_SCRIPT
+        else 
+            echo "Not found $BEAT_NAME's setup script."
+        fi
     else
         echo "File '$BEAT_SCRIPT_PATH' not found. Current dir: '${PWD}'"
     fi
@@ -35,4 +43,4 @@ applyBeats() {
     setupbeat $BEAT
 }
 
-[ -d "$DIR" ] && applyBeats|| echo "Shared dir '$DIR' not found"
+[ -d "$DIR" ] && applyBeats || echo "Shared dir '$DIR' not found"
