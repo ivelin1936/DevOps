@@ -7,7 +7,7 @@ Vagrant.configure(2) do |config|
   
   config.vm.define "jenkins" do |jenkins|
     jenkins.vm.box="ivelin1936/VCentos"
-    jenkins.vm.hostname = "vm100.do1.exam"
+    jenkins.vm.hostname = "vm11.do1.exam"
     jenkins.vm.provider :virtualbox do |vb|
         vb.name = "JE_CENTOS"
         vb.gui = false
@@ -25,7 +25,7 @@ Vagrant.configure(2) do |config|
   
   config.vm.define "docker" do |docker|
     docker.vm.box="ivelin1936/VCentos"
-    docker.vm.hostname = "vm101.do1.exam"
+    docker.vm.hostname = "vm12.do1.exam"
     docker.vm.provider :virtualbox do |vb|
         vb.name = "DO_CENTOS"
         vb.gui = false
@@ -40,14 +40,14 @@ Vagrant.configure(2) do |config|
     docker.vm.provision "shell", path: "centos_firewall_setup.sh"
     docker.vm.provision "shell", path: "docker/do_open_ports.sh"
     docker.vm.provision "shell", path: "docker-setup_centos.sh"
-    docker.vm.provision "shell", path: "docker/add_user_do.shh"
+    docker.vm.provision "shell", path: "docker/add_user_do.sh"
     docker.vm.provision "shell", path: "docker/install_gitea.sh"
     docker.vm.provision "shell", path: "docker/cp_utils.sh"
   end
   
   config.vm.define "promgraf" do |promgraf|
     promgraf.vm.box="ivelin1936/VCentos"
-    promgraf.vm.hostname = "vm102.do1.exam"
+    promgraf.vm.hostname = "vm13.do1.exam"
     promgraf.vm.provider :virtualbox do |vb|
         vb.name = "MO_CENTOS"
         vb.gui = false

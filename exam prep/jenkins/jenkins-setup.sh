@@ -32,7 +32,7 @@ echo "### Checking created jenkins user..."
 cat /etc/passwd | grep jenkins
 
 echo "### Adding sudo user 'jenkins' to the Docker group, to be able to work with docker without the need to use always sudo..."
-sudo usermod -aG jenkins && usermod -aG jenkins
+sudo usermod -aG jenkins
 
 echo "### Change jenkin's shell from '/bin/false' to '/bin/bash'"
 JENKINS_USER=$(cat /etc/passwd | grep jenkins)

@@ -1,0 +1,1 @@
+{"virtualbox":{"/gitea":{"guestpath":"/gitea","hostpath":"/home/ivelin/SoftUni/DevOps/github/DevOps/exam prep/shared_gitea","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/ivelin/SoftUni/DevOps/github/DevOps/exam prep","disabled":false,"__vagrantfile":true}}}
