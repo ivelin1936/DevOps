@@ -45,6 +45,33 @@ pipeline
       }
     }
 
+    stage('Deploy the application')
+    {
+      steps
+      {
+        sh 'docker container rm -f dob-storage || true'
+        sh 'docker container run -d --name dob-storage --net $DO_NETWORK -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD img-storage'
+
+        sh 'docker container rm -f dob-producer || true'
+        sh 'docker container run -d --name dob-producer --net $DO_NETWORK img-producer'
+
+        sh 'docker container rm -f dob-consumer || true'
+        sh 'docker container run -d --name dob-consumer --net $DO_NETWORK -p 8080:5000 img-consumer'
+      }
+    }
+
+    stage('Test Application')
+    {
+      steps
+      {
+        script
+        {
+          echo 'Test #1 - reachability'
+          sh 'echo $(curl --write-out "%{http_code}" --silent --output /dev/null http://localhost:8080) | grep 200'
+        }
+      }
+    }
+
     stage('Publishing images to Docker Hub')
     {
       steps
@@ -62,21 +89,6 @@ pipeline
         sh 'docker image rm ivelin1936/img-storage || true'
         sh 'docker image tag img-storage ivelin1936/img-storage'
         sh 'docker push ivelin1936/img-storage'
-      }
-    }
-
-    stage('Deploy the application')
-    {
-      steps
-      {
-        sh 'docker container rm -f dob-storage || true'
-        sh 'docker container run -d --name dob-storage --net $DO_NETWORK -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD img-storage'
-
-        sh 'docker container rm -f dob-producer || true'
-        sh 'docker container run -d --name dob-producer --net $DO_NETWORK img-producer'
-
-        sh 'docker container rm -f dob-consumer || true'
-        sh 'docker container run -d --name dob-consumer --net $DO_NETWORK -p 8080:5000 img-consumer'
       }
     }
   }
