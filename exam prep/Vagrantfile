@@ -16,11 +16,13 @@ Vagrant.configure(2) do |config|
     end
     jenkins.vm.network "private_network", ip: "192.168.56.11"
     jenkins.vm.network "forwarded_port", guest: 8080, host: 8080
+    #docker.vm.synced_folder "shared_jenkins", "/shared_jenkins"
     jenkins.vm.provision "shell", path: "add_hosts.sh"
     jenkins.vm.provision "shell", path: "addons_centos.sh"
     jenkins.vm.provision "shell", path: "centos_firewall_setup.sh"
     jenkins.vm.provision "shell", path: "jenkins/jenkins_open_ports.sh"
     jenkins.vm.provision "shell", path: "jenkins/jenkins-setup.sh"
+    jenkins.vm.provision "shell", path: "jenkins/install_node_exporter.sh"
   end
   
   config.vm.define "docker" do |docker|

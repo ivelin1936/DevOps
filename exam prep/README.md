@@ -1,5 +1,7 @@
 ### M8: Exam Preparation (Practice)
 
+##### Fo the exam prep, All hosts should be in a dedicated network - 192.168.150.0/24, but i will work on 192.168.56.0/24, because that is allowable on my machine :)
+
 1. Pull the repository
 2. Deploy virtual machines `vagrant up`
 
@@ -61,9 +63,22 @@
         - Make repository Visibility public (unmark 'Make repository Private' from repository settings)
         - Add repository webhook: Target URL `http://192.168.56.11:8080/gitea-webhook/post` and test it `Test delivery` /If you are follow the steps, the result should be 'successful'/
 
-5. Enter into 'promgraf' machine via ssh `vagrant ssh promgraf`
+5. Go back to Jenkins UI `http://192.168.56.11:8080/` and Create new pipline into Jenkins
+    - mark 'GitHub project'
+        - add project url to the gitea repository
+    - mark 'GitHub hook trigger for GITScm polling'
+    - mark 'Poll SCM'
+    - Place the Jenkins file's content into the pipline script...
+    - Save and Build
+
+6. Enter into 'promgraf' machine via ssh `vagrant ssh promgraf` (Nothing to do into the virtual machine)
     - Open Prometheus Ui into the browser on `http://192.168.56.13:9090`
     - Open Grafana Ui into the browser on `http://192.168.56.13:3000/login`
         - default login `admin/admin`
     - Open Alertmanager Ui into the browser on `http://192.168.56.13:9093/#/status`
+    - Node Exported on `http://192.168.56.13:9100/metrics`
     - Open cAdvisor (docker metrics) Ui into the browser on `http://192.168.56.13:9323/containers/`
+
+
+#### Utils:
+- [Installing Node Exporter on centos 7](https://www.theairtips.com/post/how-to-install-node-exporter-on-centos-7-linux-monitoring)
