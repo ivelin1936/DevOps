@@ -6,12 +6,19 @@ scrape_configs:
   - job_name: 'prometheus'
     static_configs:
     - targets: ['prometheus:9090']
-  - job_name: 'node-exporter'
+
+  - job_name: 'ne-vm13'
     static_configs:
     - targets: ['node-exporter:9100']
-  - job_name: 'goprom_app'
+
+  - job_name: 'ne-vm11'
     static_configs:
-    - targets: ['192.168.56.11:8081', '192.168.56.11:8082']
+    - targets: ['192.168.56.11:9100']
+
+  - job_name: 'ne-vm12'
+    static_configs:
+    - targets: ['192.168.56.12:9100']
+
   - job_name: 'cadvisor'
     scrape_interval: 5s
     static_configs:
