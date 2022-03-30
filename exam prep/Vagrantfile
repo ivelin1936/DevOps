@@ -22,7 +22,7 @@ Vagrant.configure(2) do |config|
     jenkins.vm.provision "shell", path: "centos_firewall_setup.sh"
     jenkins.vm.provision "shell", path: "jenkins/jenkins_open_ports.sh"
     jenkins.vm.provision "shell", path: "jenkins/jenkins-setup.sh"
-    jenkins.vm.provision "shell", path: "jenkins/install_node_exporter.sh"
+    jenkins.vm.provision "shell", path: "install_node_exporter.sh"
   end
   
   config.vm.define "docker" do |docker|
@@ -45,6 +45,7 @@ Vagrant.configure(2) do |config|
     docker.vm.provision "shell", path: "docker/add_user_do.sh"
     docker.vm.provision "shell", path: "docker/install_gitea.sh"
     docker.vm.provision "shell", path: "docker/cp_utils.sh"
+    docker.vm.provision "shell", path: "install_node_exporter.sh"
   end
   
   config.vm.define "promgraf" do |promgraf|
