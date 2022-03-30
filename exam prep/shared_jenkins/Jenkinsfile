@@ -60,17 +60,17 @@ pipeline
       }
     }
 
-    stage('Test Application')
-    {
-      steps
-      {
-        script
-        {
-          echo 'Test #1 - reachability'
-          sh 'echo $(curl --write-out "%{http_code}" --silent --output /dev/null http://localhost:8080) | grep 200'
-        }
-      }
-    }
+//     stage('Test Application')
+//     {
+//       steps
+//       {
+//         script
+//         {
+//           echo 'Test #1 - reachability'
+//           sh 'echo $(curl --write-out "%{http_code}" --silent --output /dev/null http://localhost:8080) | grep 200'
+//         }
+//       }
+//     }
 
     stage('Publishing images to Docker Hub')
     {
