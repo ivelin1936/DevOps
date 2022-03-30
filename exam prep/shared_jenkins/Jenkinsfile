@@ -3,7 +3,6 @@ pipeline
   environment
   {
     DOCKERHUB_CREDENTIALS=credentials('docker-hub')
-    REPO_URL="http://192.168.56.12:3000/douser/exam.git"
     MYSQL_ROOT_PASSWORD="Exam-2021"
     DO_NETWORK="app-net"
   }
@@ -19,7 +18,7 @@ pipeline
     {
       steps
       {
-        git branch: 'master', url: '$REPO_URL'
+        git branch: 'master', url: 'http://192.168.56.12:3000/douser/exam.git'
       }
     }
 
@@ -38,7 +37,7 @@ pipeline
       }
     }
 
-    stage('Create network ($DO_NETWORK)')
+    stage('Create docker network $DO_NETWORK')
     {
       steps
       {
@@ -54,10 +53,10 @@ pipeline
         sh 'docker container run -d --name dob-storage --net $DO_NETWORK -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD img-storage'
 
         sh 'docker container rm -f dob-producer || true'
-        sh 'docker container run -d -p 8080:80 --name dob-producer --net $DO_NETWORK img-producer'
+        sh 'docker container run -d --name dob-producer --net $DO_NETWORK img-producer'
 
         sh 'docker container rm -f dob-consumer || true'
-        sh 'docker container run -d -p 8080:80 --name dob-consumer --net $DO_NETWORK -p 8080:5000 img-consumer'
+        sh 'docker container run -d --name dob-consumer --net $DO_NETWORK -p 8080:5000 img-consumer'
       }
     }
   }
