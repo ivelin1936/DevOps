@@ -23,7 +23,7 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
     - targets: 
-      - 192.168.56.11:9323
+      - 192.168.56.13:9323
   
 rule_files:
   - rules.yml
