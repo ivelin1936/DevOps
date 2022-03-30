@@ -57,7 +57,7 @@ pipeline
 
         sh 'docker image rm ivelin1936/img-producer || true'
         sh 'docker image tag img-producer ivelin1936/img-producer'
-        sh 'docker push ivelin1936/img-producer
+        sh 'docker push ivelin1936/img-producer'
 
         sh 'docker image rm ivelin1936/img-storage || true'
         sh 'docker image tag img-storage ivelin1936/img-storage'
