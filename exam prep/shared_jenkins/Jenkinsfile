@@ -45,7 +45,27 @@ pipeline
       }
     }
 
-    stage('Prepare volumes')
+    stage('Publishing images to Docker Hub')
+    {
+      steps
+      {
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+
+        sh 'docker image rm ivelin1936/img-consumer || true'
+        sh 'docker image tag img-consumer ivelin1936/img-consumer'
+        sh 'docker push ivelin1936/img-consumer'
+
+        sh 'docker image rm ivelin1936/img-producer || true'
+        sh 'docker image tag img-producer ivelin1936/img-producer'
+        sh 'docker push ivelin1936/img-producer
+
+        sh 'docker image rm ivelin1936/img-storage || true'
+        sh 'docker image tag img-storage ivelin1936/img-storage'
+        sh 'docker push ivelin1936/img-storage'
+      }
+    }
+
+    stage('Deploy the application')
     {
       steps
       {
