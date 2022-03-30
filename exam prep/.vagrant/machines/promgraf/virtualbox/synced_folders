@@ -1,0 +1,1 @@
+{"virtualbox":{"/home/vagrant/prom":{"guestpath":"/home/vagrant/prom","hostpath":"/home/ivelin/SoftUni/DevOps/github/DevOps/exam prep/shared_prom","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/ivelin/SoftUni/DevOps/github/DevOps/exam prep","disabled":false,"__vagrantfile":true}}}
