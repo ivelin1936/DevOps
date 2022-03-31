@@ -75,6 +75,10 @@
     - Open Prometheus Ui into the browser on `http://192.168.56.13:9090`
     - Open Grafana Ui into the browser on `http://192.168.56.13:3000/login`
         - default login `admin/admin`
+        - Add Prometheus as datasource - /Settings -> Data Source/, ` http://192.168.56.13:9090`
+        - Add panes to dashboard
+            - CPU `node_cpu_seconds_total{mode="system",job=~"ne-vm11|ne-vm12|ne-vm13"}`
+            - Disk `node_disk_read_bytes_total{device="sda",job=~"ne-vm11|ne-vm12|ne-vm13"}`
     - Open Alertmanager Ui into the browser on `http://192.168.56.13:9093/#/status`
     - Node Exported on `http://192.168.56.13:9100/metrics`
     - Open cAdvisor (docker metrics) Ui into the browser on `http://192.168.56.13:9323/containers/`
