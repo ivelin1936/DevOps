@@ -1,0 +1,1 @@
+{"virtualbox":{"/gitea":{"guestpath":"/gitea","hostpath":"/home/ivelin/soft-uni/DevOps - Containerization, CI, Cd & Monitoring/DevOps_repo/exam/shared_gitea","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/ivelin/soft-uni/DevOps - Containerization, CI, Cd & Monitoring/DevOps_repo/exam","disabled":false,"__vagrantfile":true}}}
