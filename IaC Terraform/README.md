@@ -10,3 +10,5 @@
 
  - [VS Code](https://code.visualstudio.com/)
  - [VIM Terraform syntax highlighting](https://github.com/hashivim/vim-terraform)
+
+ - [Tutorials](https://learn.hashicorp.com/terraform)
