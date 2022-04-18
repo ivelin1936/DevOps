@@ -9,8 +9,13 @@
     state: started 
     enabled: true
 
+- name: Debian - Collect package information
+  package_facts:
+   manager: auto
+
 - name: Debian - Open HTTP Port in the Firewall
-  ufw: 
-    rule: allow
-    port: 80
-    proto: tcp
+  ufw:
+   rule: allow
+   port: 80
+   proto: tcp
+  when: "'ufw' in ansible_facts.packages"
