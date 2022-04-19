@@ -1,0 +1,91 @@
+---
+- hosts: webservers
+  become: true
+
+  tasks:
+    - name: Updating the repo
+      apt:
+         update_cache: yes
+
+    - name: Installation PHP 7.4
+      apt:
+         name: php
+         state: present
+
+    - name: Install Apache HTTP Server
+      apt:
+         name: apache2
+         state: latest
+
+    - name: Start Apache HTTP Server and Enable it
+      service:
+         name: apache2
+         state: started
+         enabled: true
+
+    - name: Delete content & directory
+      file:
+         state: absent
+         path: /var/www/html/index.html
+
+    - name: Deploy the web
+      template:
+         src: "/home/vagrant/share/web/*"
+         dest: "/var/www/html/"
+
+- hosts: dbservers
+  gather_facts: true
+  become: true
+
+  vars:
+    mysql_root_password: "Password1"
+    db_port_list:
+      - { port: 3306/tcp, state: enabled }
+
+  tasks:
+    - name: Start firewalld
+      service:
+        name: firewalld
+        state: started
+        enabled: yes
+      become: yes
+
+    - name: Enable 3306/tcp
+      firewalld:
+        zone: public
+        port: "{{ item.port }}"
+        permanent: true
+        state: "{{ item.state }}"
+      loop:
+        "{{ port_list }}"
+      become: yes
+      notify:
+        - Restart firewalld
+
+    - name: Install MariaDB
+      yum:
+         name:
+           - mariadb-server
+           - python3-PyMySQL
+         state: latest
+
+    - name: Start mariadb
+      service:
+        name: mariadb
+        enabled: true
+        state: started
+
+    - name: mysql_root_password
+      mysql_user:
+        login_user: root
+        login_password: "{{ mysql_root_password }}"
+        user: root
+        check_implicit_admin: true
+        password: "{{ mysql_root_password }}"
+        host: "{{ ansible_fqdn }}"
+
+    - name: Import file.sql similar to mysql -u <username> -p <password> < hostname.sql
+      mysql_db:
+        state: import
+        name: all
+        target: /home/vagrant/share/db/db_setup.sql
