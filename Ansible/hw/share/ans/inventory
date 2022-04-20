@@ -7,11 +7,10 @@ web
 [dbservers]
 db
 
-
 [servers:children]
 webservers
 dbservers
 
 [servers:vars]
 ansible_user=vagrant
-ansible_ssh_pass=vagrant
+ansible_password=vagrant

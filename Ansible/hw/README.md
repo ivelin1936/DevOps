@@ -15,3 +15,17 @@ You can use a role downloaded from **Ansible Galaxy**, or create the playbook al
 
 **Please note that the two tasks are two separate environments!**
 Even though we should try to automate repetitive tasks as much as possible, the emphasis here is to have a working solution and not a fully automated one. Functionality over automation
+
+### Solution
+
+1. Create the virtual machines with `vagrant up`
+2. Open SSH connection to the Ansible machine `vagrant ssh ans`
+3. Generate public/private key `ssh-keygen` (still everything empty..)
+4. Copy the key to other machines (web and db)
+    - ssh-copy-id 192.168.56.11 (pass: vagrant)
+    - ssh-copy-id 192.168.56.12 (pass: vagrant)
+    - Test if host are reachable `ansible all -a "hostname" -f 1` or `ansible all -i inventory -m ping`
+5. Navigate to `cd ans/`
+6. Check if the `playbook.yml` is correct `ansible-playbook playbook.yml --syntax-check`
+7. Check which hosts will be affected `ansible-playbook playbook.yml --list-hosts`
+8. Execute the playbook `ansible-playbook playbook.yml`
