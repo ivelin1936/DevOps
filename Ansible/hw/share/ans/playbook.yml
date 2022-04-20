@@ -48,7 +48,7 @@
 
   vars:
     mysql_root_password: "Password1"
-    db_server_bind_address: "192.168.56.11"
+    db_server_bind_address: "0.0.0.0"
     db_port_list:
       - { port: 3306/tcp, state: enabled }
 
@@ -83,6 +83,13 @@
            - python3-PyMySQL
          state: latest
 
+    - name: (DATABASE) Make sure the MariaDB service is started and enabled at boot
+      service:
+        name: mariadb
+        enabled: yes
+        state: started
+      when: ansible_os_family == "RedHat"
+
     - name: (DATABASE) Allow remote hosts to connect
       lineinfile:
         path: /etc/my.cnf.d/mariadb-server.cnf
@@ -96,29 +103,36 @@
         enabled: true
         state: started
 
-    - name: Set MySQL root password
+    - name: Set password for root user
       mysql_user:
-        login_user: root
-        login_password: "{{ mysql_root_password }}"
-        user: root
-        check_implicit_admin: true
+        login_user: 'root'
+        login_password: ''
+        name: "root"
         password: "{{ mysql_root_password }}"
-        #host: localhost
+        priv: '*.*:ALL,GRANT'
         host: "{{ ansible_fqdn }}"
+        state: present
+
+    - name: Save root password in .my.cnf
+      template:
+        src: root_cnf.j2
+        dest: /root/.my.cnf
+        owner: root
+        mode: '0600'
 
     - name: Copy DB backup
       copy:
          src: "/home/vagrant/db/db_setup.sql"
          dest: "/home/vagrant/db/"
 
-    - name: Create DB (if necessary)
-      mysql_db:
-        name: bulgaria
-        state: present
-      register: database_exists
+    #- name: Create DB (if necessary)
+      #mysql_db:
+        #name: bulgaria
+        #state: present
+      #register: database_exists
     - name: Import file.sql similar to mysql -u <username> -p <password> < hostname.sql
       mysql_db:
         state: import
         name: all
         target: /home/vagrant/db/db_setup.sql
-      when: database_exists.changed
+      #when: database_exists.changed

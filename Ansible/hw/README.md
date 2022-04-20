@@ -24,8 +24,8 @@ Even though we should try to automate repetitive tasks as much as possible, the 
 4. Copy the key to other machines (web and db)
     - ssh-copy-id 192.168.56.11 (pass: vagrant)
     - ssh-copy-id 192.168.56.12 (pass: vagrant)
-    - Test if host are reachable `ansible all -a "hostname" -f 1` or `ansible all -i inventory -m ping`
+    - Test if host are reachable `sudo ansible all -a "hostname" -f 1` or `sudo ansible all -i inventory -m ping`
 5. Navigate to `cd ans/`
 6. Check if the `playbook.yml` is correct `ansible-playbook playbook.yml --syntax-check`
 7. Check which hosts will be affected `ansible-playbook playbook.yml --list-hosts`
-8. Execute the playbook `ansible-playbook playbook.yml`
+8. Execute the playbook `sudo ansible-playbook playbook.yml`
