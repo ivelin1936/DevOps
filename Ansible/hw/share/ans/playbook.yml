@@ -52,11 +52,12 @@
          mode: '1777'
       notify: Restart Apache
 
-    #- name: "UFW - Allow HTTP on port {{ http_port }}"
-      #ufw:
-        #rule: allow
-        #port: "{{ http_port }}"
-        #proto: tcp
+    - name: "UFW - Allow HTTP on port {{ http_port }}"
+      ufw:
+        rule: allow
+        port: "{{ http_port }}"
+        proto: tcp
+      when: "'ufw' in ansible_facts.packages"
 
   handlers:
     - name: Reload Apache
@@ -129,7 +130,7 @@
 
     - name: Save root credentials into .my.cnf
       template:
-        src: root_cnf.j2
+        src: templates/root_cnf.j2
         dest: /root/.my.cnf
         owner: root
         mode: '0600'

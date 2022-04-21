@@ -1,0 +1,21 @@
+---
+- hosts: webservers
+  become: true
+
+  vars_files:
+    - vars/default.yml
+
+  roles:
+    - apache-web-server
+    - deploy-app
+
+  handlers:
+    - name: Reload Apache
+      service:
+        name: apache2
+        state: reloaded
+
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted

@@ -1,0 +1,39 @@
+    - name: Start firewalld
+      service:
+        name: firewalld
+        state: started
+        enabled: yes
+      become: yes
+
+    - name: Enable Firewall ports
+      firewalld:
+        zone: public
+        port: "{{ item }}"
+        permanent: yes
+        immediate: yes
+        state: enabled
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+      loop:
+        - 3306/tcp
+      notify: Reload service firewalld
+
+    - name: Install MariaDB
+      yum:
+         name:
+           - mariadb-server
+           - python3-PyMySQL
+         state: latest
+      notify: Allow remote hosts
+
+    - name: (DATABASE) Make sure the MariaDB service is started and enabled at boot
+      service:
+        name: mariadb
+        enabled: yes
+        state: started
+      when: ansible_os_family == "RedHat"
+
+    - name: Start mariadb
+      service:
+        name: mariadb
+        enabled: true
+        state: started

@@ -1,0 +1,29 @@
+---
+- hosts: webservers
+  become: true
+
+  vars_files:
+    - vars/default.yml
+
+  roles:
+    - install-mariadb
+    - deploy-db
+
+  handlers:
+    - name: Reload service firewalld
+      systemd:
+        name: firewalld
+        state: reloaded
+
+    - name: Allow remote hosts
+      lineinfile:
+        path: /etc/my.cnf.d/mariadb-server.cnf
+        state: present
+        insertafter: '^\[mysqld\]'
+        line: 'bind-address            = {{ db_server_bind_address }}'
+
+    - name: Import database
+      mysql_db:
+        state: import
+        name: all
+        target: /home/vagrant/db/db_setup.sql

@@ -1,0 +1,29 @@
+    - name: Updating the repo
+      apt:
+         update_cache: yes
+         state: latest
+         force_apt_get: yes
+
+    - name: Installation PHP 7.4
+      apt:
+         name: php,php-mysql,libapache2-mod-php,php-cli
+         state: present
+
+    - name: Install Apache HTTP Server
+      apt:
+         name: apache2
+         update_cache: yes
+         state: latest
+
+    - name: Start Apache HTTP Server and Enable it
+      service:
+         name: apache2
+         state: started
+         enabled: true
+
+    - name: "UFW - Allow HTTP on port {{ http_port }}"
+      ufw:
+        rule: allow
+        port: "{{ http_port }}"
+        proto: tcp
+      when: "'ufw' in ansible_facts.packages"

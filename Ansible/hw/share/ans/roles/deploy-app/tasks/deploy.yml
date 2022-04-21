@@ -1,0 +1,22 @@
+    - name: Delete content & directory
+      file:
+         state: absent
+         path: /var/www/html/index.html
+
+    - name: Deploy web page
+      template:
+         src: "/home/vagrant/web/index.php"
+         dest: "/var/www/html/index.php"
+
+    - name: Deploy web resources
+      copy:
+         src: "/home/vagrant/web/bulgaria-map.png"
+         dest: "/var/www/html/"
+
+    - name: Modify web file/s permissions (insecure permissions to index.php)
+      file:
+         path: /var/www/html/index.php
+         owner: root
+         group: root
+         mode: '1777'
+      notify: Restart Apache
