@@ -94,11 +94,7 @@
       when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
       loop:
         - 3306/tcp
-
-    - name: Reload service firewalld
-      systemd:
-        name: firewalld
-        state: reloaded
+      notify: Reload service firewalld
 
     - name: Install MariaDB
       yum:
@@ -106,6 +102,7 @@
            - mariadb-server
            - python3-PyMySQL
          state: latest
+      notify: Allow remote hosts
 
     - name: (DATABASE) Make sure the MariaDB service is started and enabled at boot
       service:
@@ -113,13 +110,6 @@
         enabled: yes
         state: started
       when: ansible_os_family == "RedHat"
-
-    - name: (DATABASE) Allow remote hosts to connect
-      lineinfile:
-        path: /etc/my.cnf.d/mariadb-server.cnf
-        state: present
-        insertafter: '^\[mysqld\]'
-        line: 'bind-address            = {{ db_server_bind_address }}'
 
     - name: Start mariadb
       service:
@@ -156,6 +146,18 @@
       notify: Import database
 
   handlers:
+    - name: Reload service firewalld
+      systemd:
+        name: firewalld
+        state: reloaded
+
+    - name: Allow remote hosts
+      lineinfile:
+        path: /etc/my.cnf.d/mariadb-server.cnf
+        state: present
+        insertafter: '^\[mysqld\]'
+        line: 'bind-address            = {{ db_server_bind_address }}'
+
     - name: Import database
       mysql_db:
         state: import
