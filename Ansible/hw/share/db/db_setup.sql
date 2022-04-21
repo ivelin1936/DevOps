@@ -1,4 +1,5 @@
-create database bulgaria character set utf8 collate utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS bulgaria;
+ALTER DATABASE bulgaria CHARACTER SET utf8 COLLATE utf8_general_ci;
 grant all on bulgaria.* to 'web_user'@'%' identified by 'Password1';
 use bulgaria;
 create table cities (id int primary key auto_increment, city_name varchar(50), population int);

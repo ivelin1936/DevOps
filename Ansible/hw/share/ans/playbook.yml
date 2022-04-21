@@ -1,22 +1,26 @@
 ---
 - hosts: webservers
-  remote_user: vagrant
   become: true
-  become_method: sudo
+
+  vars_files:
+    - vars/default.yml
 
   tasks:
     - name: Updating the repo
       apt:
          update_cache: yes
+         state: latest
+         force_apt_get: yes
 
     - name: Installation PHP 7.4
       apt:
-         name: php
+         name: php,php-mysql,libapache2-mod-php,php-cli
          state: present
 
     - name: Install Apache HTTP Server
       apt:
          name: apache2
+         update_cache: yes
          state: latest
 
     - name: Start Apache HTTP Server and Enable it
@@ -40,17 +44,37 @@
          src: "/home/vagrant/web/bulgaria-map.png"
          dest: "/var/www/html/"
 
+    - name: Modify web file/s permissions (insecure permissions to index.php)
+      file:
+         path: /var/www/html/index.php
+         owner: root
+         group: root
+         mode: '1777'
+      notify: Restart Apache
+
+    #- name: "UFW - Allow HTTP on port {{ http_port }}"
+      #ufw:
+        #rule: allow
+        #port: "{{ http_port }}"
+        #proto: tcp
+
+  handlers:
+    - name: Reload Apache
+      service:
+        name: apache2
+        state: reloaded
+
+    - name: Restart Apache
+      service:
+        name: apache2
+        state: restarted
+
 - hosts: dbservers
   gather_facts: true
-  remote_user: vagrant
   become: true
-  become_method: sudo
 
-  vars:
-    mysql_root_password: "Password1"
-    db_server_bind_address: "0.0.0.0"
-    db_port_list:
-      - { port: 3306/tcp, state: enabled }
+  vars_files:
+    - vars/default.yml
 
   tasks:
     - name: Start firewalld
@@ -103,17 +127,17 @@
         enabled: true
         state: started
 
-    - name: Set password for root user
+    - name: Manage DB users
       mysql_user:
-        login_user: 'root'
-        login_password: ''
-        name: "root"
-        password: "{{ mysql_root_password }}"
+        login_user: "{{ web_user }}"
+        login_password: "{{ web_user_password }}"
+        user: root
+        check_implicit_admin: true
+        password: ""
         priv: '*.*:ALL,GRANT'
-        host: "{{ ansible_fqdn }}"
-        state: present
+        host: "{{ db_host }}"
 
-    - name: Save root password in .my.cnf
+    - name: Save root credentials into .my.cnf
       template:
         src: root_cnf.j2
         dest: /root/.my.cnf
@@ -125,14 +149,15 @@
          src: "/home/vagrant/db/db_setup.sql"
          dest: "/home/vagrant/db/"
 
-    #- name: Create DB (if necessary)
-      #mysql_db:
-        #name: bulgaria
-        #state: present
-      #register: database_exists
-    - name: Import file.sql similar to mysql -u <username> -p <password> < hostname.sql
+    - name: Ensure '{{ db_name }}' database exists! If no - Import it (mysql -u <username> -p <password> < hostname.sql)
+      mysql_db:
+         name: "{{ db_name }}"
+         state: present
+      notify: Import database
+
+  handlers:
+    - name: Import database
       mysql_db:
         state: import
         name: all
         target: /home/vagrant/db/db_setup.sql
-      #when: database_exists.changed

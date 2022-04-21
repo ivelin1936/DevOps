@@ -1,0 +1,10 @@
+---
+mysql_root_password: ""
+db_server_bind_address: "0.0.0.0"
+web_user: "web_user"
+web_user_password: "Password1"
+db_name: "bulgaria"
+db_host: "db"
+http_port: 8080
+db_port_list:
+  - { port: 3306/tcp, state: enabled }
